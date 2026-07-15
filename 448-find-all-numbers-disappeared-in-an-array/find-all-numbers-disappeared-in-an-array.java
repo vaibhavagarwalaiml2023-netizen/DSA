@@ -1,37 +1,22 @@
-import java.util.*;
-
 class Solution {
     public List<Integer> findDisappearedNumbers(int[] nums) {
+
         List<Integer> ans = new ArrayList<>();
 
-        Arrays.sort(nums);
+        // Mark visited numbers
+        for (int i = 0; i < nums.length; i++) {
+            int index = Math.abs(nums[i]) - 1;
 
-        int expected = 1;
-        int i = 0;
-
-        while (i < nums.length) {
-            if (nums[i] == expected) {
-                expected++;
-                i++;
-
-                // Skip duplicates
-                while (i < nums.length && nums[i] == nums[i - 1]) {
-                    i++;
-                }
-            } 
-            else if (nums[i] < expected) {
-                i++;
-            } 
-            else { // nums[i] > expected
-                ans.add(expected);
-                expected++;
+            if (nums[index] > 0) {
+                nums[index] = -nums[index];
             }
         }
 
-        // Add remaining missing numbers
-        while (expected <= nums.length) {
-            ans.add(expected);
-            expected++;
+        // Find missing numbers
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                ans.add(i + 1);
+            }
         }
 
         return ans;
